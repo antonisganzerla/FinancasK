@@ -3,11 +3,11 @@ package com.antoni.financask.ui.activity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.antoni.financask.R
+import com.antoni.financask.model.Tipo
 import com.antoni.financask.model.Transacao
 import com.antoni.financask.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import java.math.BigDecimal
-import java.util.Calendar
 
 class ListaTransacoesActivity : AppCompatActivity() {
 
@@ -17,11 +17,11 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
 
         val transacoes = listOf(Transacao(BigDecimal(20.5),
-            "Comida",
-            Calendar.getInstance()),
+            "Comida", tipo = Tipo.DESPESA),
             Transacao(BigDecimal(100.0),
-                "Economia",
-                Calendar.getInstance()))
+                "Economia", tipo = Tipo.RECEITA),
+
+            Transacao(BigDecimal(75.0), tipo = Tipo.RECEITA))
 
         val adapter = ListaTransacoesAdapter(transacoes, this)
 
