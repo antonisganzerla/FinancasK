@@ -28,9 +28,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
         //retorna a view da activity
         val view = window.decorView
         val resumoView = ResumoView(this, view, transacoes)
-        resumoView.adicionaReceita()
-        resumoView.adicionaDespesa()
-        resumoView.adicionaTotal()
+        resumoView.atualiza()
     }
 
 
