@@ -20,21 +20,32 @@ import java.math.BigDecimal
 import java.util.Calendar
 
 
-class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
-                              private val context: Context) {
+class AlteraTransacaoDialog(private val viewGroup: ViewGroup,
+                            private val context: Context) {
 
     private val viewCriada = criaLayout()
     private val campoValor = viewCriada.form_transacao_valor
     private val campoCategoria = viewCriada.form_transacao_categoria
     private val campoData = viewCriada.form_transacao_data
 
-    fun chama(tipo: Tipo, transacaoDelegate: TransacaoDelegate) {
+    fun chama(transacao: Transacao, transacaoDelegate: TransacaoDelegate) {
+
+        val tipo = transacao.tipo
+
+
 
         configuraCampoData()
 
         configuraCampoCategoria(tipo)
 
         configuraFormulario(tipo, transacaoDelegate)
+        
+        campoValor.setText(transacao.valor.toString())
+        campoData.setText(transacao.data.formataParaBrasileiro())
+
+        val categorias = context.resources.getStringArray(categoriaPor(tipo))
+        val posicaoCategoria = categorias.indexOf(transacao.categoria)
+        campoCategoria.setSelection(posicaoCategoria)
     }
 
     private fun configuraFormulario(tipo: Tipo, transacaoDelegate: TransacaoDelegate) {
@@ -44,7 +55,7 @@ class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
         AlertDialog.Builder(context)
             .setTitle(titulo)
             .setView(viewCriada)
-            .setPositiveButton("Adicionar", { _, _ ->
+            .setPositiveButton("Alterar", { _, _ ->
                 val valorEmTexto = campoValor.text.toString()
                 val dataEmTexto = campoData.text.toString()
                 val categoriaEmTexto = campoCategoria.selectedItem.toString()
@@ -69,9 +80,9 @@ class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
 
     private fun tituloPor(tipo: Tipo): Int {
         if (tipo == Tipo.RECEITA) {
-            return R.string.adiciona_receita
+            return R.string.altera_receita
         }
-        return R.string.adiciona_despesa
+        return R.string.altera_despesa
     }
 
     private fun converteCampoValor(valorEmTexto: String): BigDecimal{
