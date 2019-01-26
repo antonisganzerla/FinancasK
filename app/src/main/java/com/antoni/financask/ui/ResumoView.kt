@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.resumo_card.view.*
 import java.math.BigDecimal
 
 class ResumoView(context: Context,
-                 private val view: View,
+                 private val view: View?,
                  transacoes: List<Transacao>) {
 
     private val resumo: Resumo = Resumo(transacoes)
@@ -22,17 +22,21 @@ class ResumoView(context: Context,
         val totalReceita = resumo.receita()
 
         //chama apenas uma vez o objeto e dentro do bloco pode-se fazer a chamada das funções
-        with(view.resumo_card_receita){
-            setTextColor(corReceita)
-            text = totalReceita.formataMoedaBrasilera()
+        view?.let {
+            with(it.resumo_card_receita){
+                setTextColor(corReceita)
+                text = totalReceita.formataMoedaBrasilera()
+            }
         }
     }
 
     private fun adicionaDespesa(){
         val totalDespesa = resumo.despesa()
-        with(view.resumo_card_despesa){
-            setTextColor(corDespesa)
-            text = totalDespesa.formataMoedaBrasilera()
+        view?.let {
+            with(it.resumo_card_despesa){
+                setTextColor(corDespesa)
+                text = totalDespesa.formataMoedaBrasilera()
+            }
         }
     }
 
@@ -41,9 +45,12 @@ class ResumoView(context: Context,
 
         val cor = corPor(total)
 
-        with(view.resumo_card_total){
-            setTextColor(cor)
-            text = total.formataMoedaBrasilera()
+        //null safety
+        view?.let{
+            with(it.resumo_card_total){
+                setTextColor(cor)
+                text = total.formataMoedaBrasilera()
+            }
         }
     }
 

@@ -39,7 +39,7 @@ class AlteraTransacaoDialog(private val viewGroup: ViewGroup,
         configuraCampoCategoria(tipo)
 
         configuraFormulario(tipo, transacaoDelegate)
-        
+
         campoValor.setText(transacao.valor.toString())
         campoData.setText(transacao.data.formataParaBrasileiro())
 
