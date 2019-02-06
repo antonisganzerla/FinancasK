@@ -3,7 +3,6 @@ package com.antoni.financask.ui.dialog
 import android.content.Context
 import android.view.ViewGroup
 import com.antoni.financask.R
-import com.antoni.financask.delegate.TransacaoDelegate
 import com.antoni.financask.extension.formataParaBrasileiro
 import com.antoni.financask.model.Tipo
 import com.antoni.financask.model.Transacao
@@ -25,11 +24,11 @@ class AlteraTransacaoDialog(viewGroup: ViewGroup,
     }
 
 
-    fun chama(transacao: Transacao, transacaoDelegate: TransacaoDelegate) {
+    fun chama(transacao: Transacao, delegate: (transacao: Transacao) -> Unit) {
 
         val tipo = transacao.tipo
 
-        super.chama(tipo, transacaoDelegate)
+        super.chama(tipo, delegate)
 
         inicializaCampos(transacao)
     }

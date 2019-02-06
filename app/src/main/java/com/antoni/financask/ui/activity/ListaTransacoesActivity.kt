@@ -1,11 +1,10 @@
 package com.antoni.financask.ui.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
 import com.antoni.financask.R
-import com.antoni.financask.delegate.TransacaoDelegate
 import com.antoni.financask.model.Tipo
 import com.antoni.financask.model.Transacao
 import com.antoni.financask.ui.ResumoView
@@ -55,12 +54,10 @@ class ListaTransacoesActivity : AppCompatActivity() {
     private fun chamaDialogTransacao(tipo: Tipo) {
         AdicionaTransacaoDialog(viewGroupDaActivity, this)
             //object expression
-            .chama(tipo, object : TransacaoDelegate {
-                override fun delegate(transacao: Transacao) {
-                    adiciona(transacao)
-                    lista_transacoes_adiciona_menu.close(true)
-                }
-            })
+            .chama(tipo) {transacaoCriada ->
+                adiciona(transacaoCriada)
+                lista_transacoes_adiciona_menu.close(true)
+            }
     }
 
     private fun adiciona(transacao: Transacao) {
@@ -74,7 +71,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
     }
 
     private fun configuraLista() {
-        with(lista_transacoes_listview){
+        with(lista_transacoes_listview) {
             adapter = ListaTransacoesAdapter(transacoes, this@ListaTransacoesActivity)
             setOnItemClickListener { _, _, position, _ ->
                 val transacao = transacoes[position]
@@ -86,11 +83,9 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private fun chamaDialogAlteracao(transacao: Transacao, position: Int) {
         AlteraTransacaoDialog(viewGroupDaActivity, this)
-            .chama(transacao, object : TransacaoDelegate {
-                override fun delegate(transacao: Transacao) {
-                    altera(transacao, position)
-                }
-            })
+            .chama(transacao) { transacaoAlterada ->
+                altera(transacaoAlterada, position)
+            }
     }
 
     private fun altera(transacao: Transacao, position: Int) {
